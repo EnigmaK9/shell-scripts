@@ -22,8 +22,14 @@ while true; do
     sleep 1
   done
 
-  # Pitido al final del descanso
-  printf '\a'
+  # Reproducir sonido al final del descanso
+  if [ "$(uname)" == "Darwin" ]; then
+    # Sistema operativo macOS
+    afplay pomodoro/navy-sound/Navi-Zelda-Sample-Hey-Listen.mp3.
+  elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    # Sistema operativo Linux
+    mpg123 pomodoro/navy-sound/Navi-Zelda-Sample-Hey-Listen.mp3.
+  fi
   # Aumentar la cuenta de sesiones de trabajo
   session_count=$((session_count + 1))
 
@@ -44,4 +50,3 @@ while true; do
     session_count=0
   fi
 done
-
