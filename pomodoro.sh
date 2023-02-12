@@ -1,28 +1,47 @@
 #!/bin/bash
 
-echo "Iniciando pomodoro de 25 minutos..."
+# Variable para contar la cantidad de sesiones de trabajo
+session_count=0
 
-# 25 minutos de trabajo
-for ((i=1; i<=25; i++)); do
-  echo "Minuto $i de 25 minutos..."
-  sleep 60
+# Bucle principal
+while true; do
+  # Trabajo durante 25 minutos
+  echo "Empezando sesión de trabajo de 25 minutos..."
+  for ((i=1500; i>=0; i--)); do
+    printf "\rTiempo restante: %02d:%02d" $((i/60)) $((i%60))
+    sleep 1
+  done
+
+  # Pitido al comienzo del descanso
+  printf '\a'
+  echo "Descanso de 5 minutos..."
+
+  # Descanso de 5 minutos
+  for ((i=300; i>=0; i--)); do
+    printf "\rTiempo restante: %02d:%02d" $((i/60)) $((i%60))
+    sleep 1
+  done
+
+  # Pitido al final del descanso
+  printf '\a'
+  # Aumentar la cuenta de sesiones de trabajo
+  session_count=$((session_count + 1))
+
+  # Si se han completado 3 sesiones de trabajo, dar un descanso más largo de 15 minutos
+  if [ $session_count -eq 3 ]; then
+    printf '\a'
+    echo "Descanso más largo de 15 minutos después de 3 sesiones de trabajo..."
+
+    # Descanso de 15 minutos
+    for ((i=900; i>=0; i--)); do
+      printf "\rTiempo restante: %02d:%02d" $((i/60)) $((i%60))
+      sleep 1
+    done
+
+    # Pitido al final del descanso
+    printf '\a'
+    # Reiniciar la cuenta de sesiones de trabajo
+    session_count=0
+  fi
 done
-
-echo "Descanso corto de 5 minutos..."
-
-# 5 minutos de descanso corto
-for ((i=1; i<=5; i++)); do
-  echo "Minuto $i de 5 minutos..."
-  sleep 60
-done
-
-echo "Descanso largo de 15 minutos..."
-
-# 15 minutos de descanso largo
-for ((i=1; i<=15; i++)); do
-  echo "Minuto $i de 15 minutos..."
-  sleep 60
-done
-
-echo "Pomodoro completado!"
 
